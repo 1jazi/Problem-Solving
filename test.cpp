@@ -1,36 +1,45 @@
 #include <iostream>
-
+#include <vector>
 using namespace std;
-
-void sort(int array[], int size);
+int n, m;
+vector<vector<int>> v;
+vector<bool> vis;
+void dfs(int x)
+{
+    vis[x] = 1;
+    for (size_t i = 0; i < v[x].size(); i++)
+    {
+        int g = v[x][i];
+        if (vis[g] == false)
+        {
+            dfs(x);
+        }
+    }
+}
 int main()
 {
+    cin >> n >> m;
+    v.resize(n);
+    vis.resize(n);
 
-  int array[] = {8, 9, 4, 5, 6, 1, 3, 7, 2};
-  // int size = sizeof(array)/sizeof(int);
-  sort(array, 10);
-  for (int element : array)
-  {
-    cout << element << " ";
-  }
-  cout << endl;
-
-  return 0;
-}
-void sort(int array[], int size)
-{
-  int temp;
-  for (int i = 0; i < size - 1; i++)
-  {
-
-    for (int j = 0; i < size - i - 1; j++)
+    while (m--)
     {
-      if (array[j] > array[j + 1])
-      {
-        temp = array[j];
-        array[j] = array[j + 1];
-        array[j + 1] = temp;
-      }
+        int u, x;
+        cin >> u >> x;
+        u--;
+        x--;
+        v[u].push_back(x);
+        v[x].push_back(u);
     }
-  }
+    int count = 0;
+    for (size_t i = 0; i < n; i++)
+    {
+        if (vis[i] == false)
+        {
+            count++;
+            dfs(i);
+        }
+    }
+    cout << count;
+    return 0;
 }
